@@ -1,3 +1,8 @@
-export default function Home() {
-  return <h1>Home</h1>;
+import { Hero } from "../components/Hero";
+import withLeftSidebar from "../hocs/withLeftSidebar";
+
+function Home() {
+  return <Hero />;
 }
+
+export default withLeftSidebar(Home);

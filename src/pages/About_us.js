@@ -1,3 +1,7 @@
-export default function AboutUs() {
-  return <h1>AboutsUs</h1>;
+import withLeftSidebar from "../hocs/withLeftSidebar";
+
+function AboutUs() {
+  return <h1>About us</h1>;
 }
+
+export default withLeftSidebar(AboutUs);

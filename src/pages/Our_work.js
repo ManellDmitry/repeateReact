@@ -1,3 +1,11 @@
-export default function OurWork() {
-  return <h1>OurWork</h1>;
+import withLeftSidebar from "../hocs/withLeftSidebar";
+
+function OurWork() {
+  return (
+    <>
+      <h1>Our work</h1>
+    </>
+  );
 }
+
+export default withLeftSidebar(OurWork);

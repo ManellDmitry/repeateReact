@@ -1,43 +1,50 @@
-import * as locales from "./locales";
+import * as locales from './locales';
 
-export function getLangFromBrowser() {
+export function getLangFromBrowser(){
   return window.navigator.language;
 }
 
-export function checkLangFromBrowserList() {
-  return window.navigator.languages.find((lang) => locales[lang]);
+export function checkLangFromBrowserList(){
+  return window.navigator.languages.find(lang => locales[lang])
 }
 
-export function getLangFromLocalStorage() {
-  return localStorage.getItem("lang");
+export function getLangFromLocalStorage(){
+  return localStorage.getItem('lang')
 }
 
-export function getLang() {
+export function getInitLang(){
+  let lsLang = getLangFromLocalStorage();
+  lsLang = lsLang === 'ua' ? 'uk' : lsLang
+  // console.log('lsLang:', lsLang); // null
+  if(locales[lsLang]){
+    return lsLang
+  }
+
   const browserLang = getLangFromBrowser();
-  if (locales[browserLang]) {
-    return browserLang;
+  // console.log('browserLang:', browserLang); 
+  if(locales[browserLang]){
+    return browserLang
   }
 
   const checkedLangFromBrowser = checkLangFromBrowserList();
-  if (locales[checkedLangFromBrowser]) {
-    return checkedLangFromBrowser;
+  // console.log('checkedLangFromBrowser:', checkedLangFromBrowser); 
+  if(locales[checkedLangFromBrowser]){
+    return checkedLangFromBrowser
   }
 
-  let lsLang = getLangFromLocalStorage();
-  lsLang = lsLang === "ua" ? "uk" : lsLang;
-  if (locales[lsLang]) {
-    return lsLang;
-  }
-  return "en";
+  return 'en'
 }
 
-export const lang = getLang();
-console.log("Lang:", lang);
+export const lang = getInitLang();
+// console.log('LANG:', lang);
 
 function getLocalesByLang(lang) {
-  return locales[lang];
+  return locales[lang]
 }
 const currentLocales = getLocalesByLang(lang);
-export function getLocale(key) {
-  return currentLocales[key] || key;
+// console.log('result:', result);
+
+export function getLocale(key){
+  // console.log('currentLocales[key]:', currentLocales[key]);
+  return currentLocales[key] || key
 }

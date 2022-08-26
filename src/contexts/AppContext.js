@@ -26,10 +26,10 @@ const navLinks = [
 
 const user = {
   avatar:
-    "https://upload.wikimedia.org/wikipedia/uk/thumb/a/a4/%D0%92%D0%BE%D0%BB%D0%B4%D0%B5%D0%BC%D0%BE%D1%80%D1%82.jpg/250px-%D0%92%D0%BE%D0%BB%D0%B4%D0%B5%D0%BC%D0%BE%D1%80%D1%82.jpg",
+    "https://i.pinimg.com/736x/44/43/d0/4443d00cfe2c55edd373d409981eba1b.jpg",
   name: {
-    firstName: "Lord",
-    lastName: "Voldemort",
+    firstName: "Dima",
+    lastName: "Manell",
   },
 };
 

@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Button } from "../components/Button";
 import { InputText } from "../components/Input";
 import withLeftSidebar from "../hocs/withLeftSidebar";
+import { setSearchValue } from "../redux/action";
+import { useDispatch } from "react-redux";
+import debounce from "lodash.debounce";
 
 const API_KEY = "563492ad6f91700001000001390f9fee0a794c1182a72e49e0e0eae2";
 const BASE_URL = "https://api.pexels.com/v1/";
@@ -18,10 +21,13 @@ const options = {
 function WhatWeDo() {
   const [search, setSearch] = useState(null);
   const [kittens, setKittens] = useState([]);
+  const dispatch = useDispatch();
 
-  const handleInputChange = (e) => {
-    setSearch(e.target.value);
-  };
+  // debounce(callback, delay)
+  const handleInputChange = debounce(({ target: { value } }) => {
+    setSearch(value); // locale state
+    dispatch(setSearchValue(value));
+  }, 1000);
 
   const searchValue = () => {
     console.log("search:", search);

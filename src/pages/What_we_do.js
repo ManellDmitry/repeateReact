@@ -1,61 +1,51 @@
-import { useState } from "react";
 import { Button } from "../components/Button";
 import { InputText } from "../components/Input";
 import withLeftSidebar from "../hocs/withLeftSidebar";
-import { setSearchValue } from "../redux/action";
-import { useDispatch } from "react-redux";
+import { setSearchValue, setImages } from "../redux/action";
+import { useDispatch, useSelector } from "react-redux";
+import { getImagesSelector, searchValueSelector } from "../redux/selectors";
 import debounce from "lodash.debounce";
+
+import "../redux/selectors";
 
 const API_KEY = "563492ad6f91700001000001390f9fee0a794c1182a72e49e0e0eae2";
 const BASE_URL = "https://api.pexels.com/v1/";
 const endpoint = "search";
 const options = {
-  // method: 'GET', // POST | PUT | PATCH | DELETE
   headers: {
     Authorization: API_KEY,
   },
-  // body: {}; // if POST | PUT | PATCH
 };
-// fetch(url, options).then(() => {}).then(() => {})
 
 function WhatWeDo() {
-  const [search, setSearch] = useState(null);
-  const [kittens, setKittens] = useState([]);
   const dispatch = useDispatch();
+  const search = useSelector(searchValueSelector);
+  const images = useSelector(getImagesSelector);
 
-  // debounce(callback, delay)
-  const handleInputChange = debounce(({ target: { value } }) => {
-    setSearch(value); // locale state
-    dispatch(setSearchValue(value));
-  }, 1000);
+  const handleInputChange = debounce((e) => {
+    dispatch(setSearchValue(e.target.value));
+  }, 500);
 
   const searchValue = () => {
-    console.log("search:", search);
-    console.log("data before request:", kittens);
+    console.log("click", search);
     if (search) {
       let params = `?query=${search}&orientaion=portrait&size=small&per_page=5`;
       const url = BASE_URL + endpoint + params;
       fetch(url, options)
         .then((response) => {
-          console.log("serponse:", response);
           return response.json();
         })
         .then((data) => {
-          console.log("data:", data);
+          console.log(data);
+          dispatch(setImages(data.photos));
           return data.photos;
-        })
-        .then((kittens) => {
-          setKittens(kittens); // rewrite
         });
-      console.log("data AFTER request:", kittens);
     }
-    console.log("data after request:", kittens);
   };
 
   return (
     <>
       <section>
-        <h1>{search || "SEARCH"}</h1>
         <InputText
           placeholder="enter value"
           handleChange={handleInputChange}
@@ -63,7 +53,7 @@ function WhatWeDo() {
         />
         <Button type="submit" label="search" handleClick={searchValue} />
         <ul>
-          {kittens.map(({ src: { tiny }, alt, id }) => {
+          {images.map(({ src: { tiny }, alt, id }) => {
             return (
               <li key={id}>
                 <img src={tiny} alt={alt} />
